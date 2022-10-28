@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        .form-table{
+            width: 100%;
+            table-layout: fixed;
+        }
+        .form-table td{
+            width: 100%;
+        }
         td{
             border: 2px solid black;
         }
@@ -21,8 +28,37 @@
         }
         .tableResults{
             width: 60%;
-            
+            position: relative;
         }
+
+
+        .results {
+            width: 100%;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-x: scroll;
+        }
+
+        .resultsTab {
+            overflow-y: auto;
+            width: 100%;
+            min-height: 800px;
+            table-layout: fixed;
+        }
+
+        .resultsTab thead {
+            position: sticky;
+            top: 0;
+        }
+
+        .resultsTab td {
+            width: 100%;
+        }
+
+
     </style>
 </head>
 <body>
@@ -63,6 +99,144 @@
                             Таблица результатов итераций
                         </h1>
                     </div>
+                    <div class="results">
+                        <table class="resultsTab">
+                            <thead>
+                                <tr>
+                                    <th>Текущее время</th>
+                                    <th>Время работы скрипта</th>
+                                    <th class="col">X</th>
+                                    <th class="col">Y</th>
+                                    <th class="col">R</th>
+                                    <th>Попадание</th>
+                                </tr>
+                            </thead>
+                            <tbody class="values">
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                <tr>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                    <td>0000</td>
+                                </tr>
+                                
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </td> 
                 
             </tr>
@@ -84,7 +258,7 @@
                         
                             <tr><td class="form-text y-text" colspan="9"><div class="y-text1">Значение Y</div></td></tr>
                             
-                            <td class="y-value-row">
+                            <td class="y-value-row" colspan="9">
                                 <select name="y-text" id="y">
                                 <option value="-2">-2</option>
                                 <option value="-1.5">-1.5</option>
@@ -99,8 +273,8 @@
                             </td>
 
                             <tr><td class="form-text x-text" colspan="9"><div class="x-text1">Значение X</div></td></tr>
-                            <tr class="x-value-row">
-                                <td><input type="text" class="form-input y-input" placeholder="(-5 ... 3)"></td>
+                            <tr class="x-value-row" >
+                                <td colspan="9"><input type="text" class="form-input y-input" placeholder="(-5 ... 3)"></td>
                             </tr>
 
                         </table>
