@@ -173,7 +173,7 @@
                                     <th>Попадание</th>
                                 </tr>
                             </thead>
-                            <tbody class="values">
+                            <tbody id="values">
                                 <tr>
                                     <td>0000</td>
                                     <td>0000</td>
@@ -322,30 +322,30 @@
                             
                             <td class="y-value-row" colspan="9">
                                 <select name="y-text" id="y" class="regular-select">
-                                <option value="-2">-2</option>
-                                <option value="-1.5">-1.5</option>
-                                <option value="-1">-1</option>
-                                <option value="-0.5">-0.5</option>
-                                <option value="0">0</option>
-                                <option value="0.5">0.5</option>
-                                <option value="1">1</option>
-                                <option value="1.5">1.5</option>
-                                <option value="2">2</option>
+                                <option value="-2" id='y'>-2</option>
+                                <option value="-1.5" id='y'>-1.5</option>
+                                <option value="-1" id='y'>-1</option>
+                                <option value="-0.5" id='y'>-0.5</option>
+                                <option value="0" id='y'>0</option>
+                                <option value="0.5" id='y'>0.5</option>
+                                <option value="1" id='y'>1</option>
+                                <option value="1.5" id='y'>1.5</option>
+                                <option value="2" id='y'>2</option>
                                 </select>
                             </td>
 
                             <tr><td class="form-text x-text" colspan="9"><div class="x-text1">Значение X</div></td></tr>
                             <tr class="x-value-row" >
-                                <td colspan="9"><input type="text" class="regular-placeholder" placeholder="(-5 ... 3)"></td>
+                                <td colspan="9"><input type="text" class="regular-placeholder" placeholder="(-3 ... 3)"  name="x" id = "x"></td>
                             </tr>
 
                             <tr>
                             
                                 <td colspan="5">
-                                    <button type="submit" class="form-submit">Ввести значения</button>
+                                    <button type="submit" id="submit-button" class="form-submit">Ввести значения</button>
                                 </td>
                                 <td colspan="5">
-                                    <button class="clear">Сброс таблицы</button>
+                                    <button class="clear" id="clear-button">Сброс таблицы</button>
                                 </td>
                             </tr>
                         </table>
@@ -353,6 +353,7 @@
                 </td>
             </tr>
     </table>
+    
 <script src="jquery-3.6.1.min.js"></script>
 <script src="script.js"></script>
 </body>
