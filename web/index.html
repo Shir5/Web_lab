@@ -121,6 +121,16 @@
             display: inline-block;
             font-size: 16px;
         }
+
+        .input.error {
+            border-color: red;
+        }
+
+        .checkbox__input.error + .checkbox__label {
+            color: red;
+        }
+
+
     </style>
 </head>
 <body>
@@ -138,7 +148,7 @@
                     </h1>
                     <svg height = "300" length = "300"> 
                         <rect fill="#8a2be2" fill-opacity="0.50" stroke="blue" x="150" y="90" height="50" width="100"> </rect>
-                        <polygon points="150 140,90 140,150 200,200" style="fill:#8a2be2;stroke:blue;stroke-width:1;fill-opacity:0.50" />
+                        <polygon points="150 140,90 140,150 200,150 150" style="fill:#8a2be2;stroke:blue;stroke-width:1;fill-opacity:0.50" />
                         <path d="M 150 45 A 170 140, 70, 0,0, 30 140 L 150 140 Z" fill="#8a2be2" stroke="blue" stroke-width="1" fill-opacity="0.50"/>
                         <line stroke="black" x1="150" y1="275" x2="150" y2="0"></line>
                         <line stroke="black" x1="0" y1="140" x2="300" y2="140"></line>   
@@ -307,15 +317,15 @@
                     <h2 >
                         Интерфейс
                     </h2>
-                    <form>
+                    <form class="js-form">
                         <table class="form-table">
                             <tr><td class="form-text r-text" colspan="9"><div class="r-text1">Значение R</div></td></tr>
                             <tr class="r-value-row">
-                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox" value="1">1</input></td>
-                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox" value="1.5">1.5</input></td>
-                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox" value="2">2</input></td>
-                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox" value="2.5">2.5</input></td>
-                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox" value="3">3</input></td>
+                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox js-input-checkbox" value="1">1</input></td>
+                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox js-input-checkbox" value="1.5">1.5</input></td>
+                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox js-input-checkbox" value="2">2</input></td>
+                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox js-input-checkbox" value="2.5">2.5</input></td>
+                                <td><input type="checkbox" class="regular-checkbox" name="R-checkbox js-input-checkbox" value="3">3</input></td>
                                 </tr>
                         
                             <tr><td class="form-text y-text" colspan="9"><div class="y-text1">Значение Y</div></td></tr>
@@ -336,7 +346,7 @@
 
                             <tr><td class="form-text x-text" colspan="9"><div class="x-text1">Значение X</div></td></tr>
                             <tr class="x-value-row" >
-                                <td colspan="9"><input type="text" class="regular-placeholder" placeholder="(-3 ... 3)"  name="x" id = "x"></td>
+                                <td colspan="9"><input type="text" class="regular-placeholder js-input" placeholder="(-3 ... 3)"  name="x" id = "x"></td>
                             </tr>
 
                             <tr>
