@@ -5,13 +5,13 @@ inputCheckbox = document.querySelector('.js-input-checkbox');
 
 
 function validateX(x) {
-let re = /1/;
+let re = /^[0-3\s]*$/;
 return re.test(String(x).trim());
 }
 
 
 
-form.onsubmit = function() {
+form.onsubmit = function () {
 let xVal = inputX.value,
     emptyInputs = Array.from(formInputs).filter(input => input.value === '');
 formInputs.forEach(function (input) {
