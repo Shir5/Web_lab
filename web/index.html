@@ -320,12 +320,12 @@
                     <form class="js-form">
                         <table class="form-table">
                             <tr><td class="form-text r-text" colspan="9"><div class="r-text1">Значение R</div></td></tr>
-                            <tr class="r-value-row ">
-                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox " value="1">1</input></td>
-                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox " value="1.5">1.5</input></td>
-                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox " value="2">2</input></td>
-                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox " value="2.5">2.5</input></td>
-                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox " value="3">3</input></td>
+                            <tr class="r-value-row">
+                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox" value="1">1</input></td>
+                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox" value="1.5">1.5</input></td>
+                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox" value="2">2</input></td>
+                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox" value="2.5">2.5</input></td>
+                                <td><input type="checkbox" class="regular-checkbox js-input-checkbox" name="R-checkbox" value="3">3</input></td>
                                 </tr>
                         
                             <tr><td class="form-text y-text" colspan="9"><div class="y-text1">Значение Y</div></td></tr>
@@ -347,6 +347,8 @@
                             <tr><td class="form-text x-text" colspan="9"><div class="x-text1">Значение X</div></td></tr>
                             <tr class="x-value-row" >
                                 <td colspan="9"><input type="text" class="regular-placeholder js-input" placeholder="(-3 ... 3)"  name="x" id = "x"></td>
+                                <div class="err" style="background-color: transparent">
+                                </div>
                             </tr>
 
                             <tr>
@@ -357,6 +359,9 @@
                                 <td colspan="5">
                                     <button class="clear" id="clear-button">Сброс таблицы</button>
                                 </td>
+                                <tr>
+                                    <td colspan="10" id="text-error" style="color: rgb (39,39,39)"></td>
+                                </tr>
                             </tr>
                         </table>
                     </form>
