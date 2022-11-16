@@ -80,8 +80,22 @@ document.forms.form.onsubmit = function(event) {
     event.preventDefault();
     if(validateForm()){
         console.log('true')
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'php/main.php', true);
+        let request = 'x=' + encodeURIComponent(stats.x);;
+        request += '&' + 'y=' + encodeURIComponent(stats.y);
+        request += '&' + 'r=' + encodeURIComponent(stats.r);
+        request += '&' + 'offset=' + encodeURIComponent(new Date().getTimezoneOffset());
+
+        xhttp.send(request);
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState === 4 && xhttp.status === 200) {
+                //table.innerHTML += xhttp.responseText;
+                console.log(xhttp.responseText);
+            }
+        }
+        
     }
-    
 
 }
 
