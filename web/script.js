@@ -1,4 +1,4 @@
-var x_buttons = document.querySelectorAll("#x"),
+var x_buttons = document.querySelector("#x"),
 x_text = document.querySelector(".x-text"),
 r_buttons = document.querySelectorAll(".R-checkbox"),
 r_text = document.querySelector(".r-text"),
@@ -19,7 +19,6 @@ var stats = {
 function checkR(){
     const rCoordinatesArray = document.querySelectorAll('input[name="R-checkbox"]:checked');
     if (rCoordinatesArray.length === 1) {
-        console.log("hello")
         return setSuccessFor(rCoordinatesArray[0]);
     } else {
         return setErrorFor(document.querySelectorAll('input[name="R-checkbox"]')[0], "Выберите одно значение R");
@@ -36,7 +35,6 @@ function checkX(){
     const xVal = x_element.value.replace(',','.');
     if(xVal.includes(".")){
         if(xVal.split('.').length > 2){
-            console.log('hello');
             return setErrorFor(x_element, "Данные введены неверно");
         }
         if (xVal.split(".")[1].length > 7){
@@ -57,7 +55,7 @@ function checkX(){
 
 
 function validateForm() {
-    return checkX()  && checkR();
+    return checkX() && checkR();
 }
 
 function setSuccessFor(input) {
@@ -76,28 +74,54 @@ function setErrorFor(input, message) {
     return false;
 }
 
-document.forms.form.onsubmit = function(event) {
+$("#submit-button").on("click", function(event) {
     event.preventDefault();
-    if(validateForm()){
-        console.log('true')
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'php/main.php', true);
-        let request = 'x=' + encodeURIComponent(stats.x);;
-        request += '&' + 'y=' + encodeURIComponent(stats.y);
-        request += '&' + 'r=' + encodeURIComponent(stats.r);
-        request += '&' + 'offset=' + encodeURIComponent(new Date().getTimezoneOffset());
-
-        xhttp.send(request);
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState === 4 && xhttp.status === 200) {
-                //table.innerHTML += xhttp.responseText;
-                console.log(xhttp.responseText);
-            }
-        }
-        
+    console.log("hello");
+    if(!validateForm()){
+        return false;
     }
+    x_buttons.value = x_buttons.value.replace(',','.');
+    console.log($(this).serialize() + "&offset=" + (new Date().getTimezoneOffset()));
+    $.ajax({
+        url : 'php/main.php',
+        method : "GET",
+        data : $(this).serialize() + "&offset=" + new Date().getTimezoneOffset(),
 
-}
+        success: function(data) { 
+            $("#values").html(data);
+        },
+        error : function(error){
+            console.log(error);
+        }
+    })
+})
+
+$(document).ready(function() {
+    $.ajax({
+        url: 'php/load.php',
+        method: "GET",
+        success: function(data){
+            $("#values").html(data);
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+})
+
+$(".clear-button").on("click", function(event) {
+    event.preventDefault();
+
+    document.querySelector("#x").value = '';
+    $.ajax({
+        url : 'php/clear.php',
+        method : "GET",
+        success: function(data) { 
+            console.log(data);
+            $("#values").html(data);
+        }
+    })
+})
 
 
 
