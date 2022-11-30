@@ -1,10 +1,13 @@
 <?php
 session_start();
 
+
+$time_start = microtime(true);
+
 $x=$_GET['x'];
 $y=$_GET['y'];
 $r=$_GET['r'];
-$xcor = sprintf("%01.3f", $x);
+$xfix = sprintf("%01.3f", $x);
 $offset = $_GET['offset'];
 
 function validateOffset($offset){
@@ -12,7 +15,7 @@ function validateOffset($offset){
 }
 
 function validateY($y){
-    return is_numeric($y) && ($y == -2 || $y == -1.5 || $y == -1 || $y == -0.5 || $y == 0 || $y == 0.5 || $y == 1 || $y == 1.5 || $y == 2);
+    return (is_numeric($y) && ($y == -2 || $y == -1.5 || $y == -1 || $y == -0.5 || $y == 0 || $y == 0.5 || $y == 1 || $y == 1.5 || $y == 2));
 }
 
 
@@ -40,10 +43,10 @@ function triangleChecker($x, $y, $r){
 function result($x, $y, $r){
     return(circleChecker($x, $y, $r) || rectangleChecker($x, $y, $r) || triangleChecker($x, $y, $r));
 }
-$result = (validateY($y) && validateX($xcor) && validateR($r) && validateOffset($offset)) ? (result($xcor, $y, $r) ? 'Попадание' : 'Промах') : 'value error';
+$result = (validateY($y) && validateX($xfix) && validateR($r) && validateOffset($offset)) ? (result($xfix, $y, $r) ? 'Попадание' : 'Промах') : 'value error';
 $time_end = microtime(true);
 $script_time = number_format($time_end - $time_start, 6, ',', '');
-$response = array('x' => $xcor, 'y' => $y, 'r' => $r, 'now' => date('j M o G:i:s', time() - $offset * 60), 'script_time' => $script_time, 'result' => $result);
+$response = array('x' => $xfix, 'y' => $y, 'r' => $r, 'now' => date('j M o G:i:s', time() - $offset * 60), 'script_time' => $script_time, 'result' => $result);
 array_push($_SESSION["data"], $response);
 
 if (!isset($_SESSION['data'])) {

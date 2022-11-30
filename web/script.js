@@ -80,11 +80,11 @@ $("#form").on("submit", function(event) {
         return false;
     }
     x_buttons.value = x_buttons.value.replace(',','.');
-    console.log("?x="+ x_buttons.value +"&y="+y_button.value + "&r="+$('input[name="R-checkbox"]:checked')[0].value + "&offset=" + (new Date().getTimezoneOffset()));
+    console.log("x="+ x_buttons.value +"&y="+y_button.value + "&r="+$('input[name="R-checkbox"]:checked')[0].value + "&offset=" + (new Date().getTimezoneOffset()));
     $.ajax({
         url : 'php/main.php',
         type : "GET",
-        data : ("?x="+ x_buttons.value +"&y="+y_button.value + "&r="+$('input[name="R-checkbox"]:checked')[0].value + "&offset="  + (new Date().getTimezoneOffset())),
+        data : ("x="+ x_buttons.value +"&y="+y_button.value + "&r="+$('input[name="R-checkbox"]:checked')[0].value + "&offset="  + (new Date().getTimezoneOffset())),
 
         success: function(data) { 
             $("#values").html(data);
@@ -108,7 +108,7 @@ $(document).ready(function() {
     })
 })
 
-$(".clear-button").on("click", function(event) {
+$("#clear-button").on("click", function(event) {
     event.preventDefault();
 
     document.querySelector("#x").value = '';
