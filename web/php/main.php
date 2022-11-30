@@ -2,8 +2,8 @@
 session_start();
 
 $x=$_GET['x'];
-$y=$_GET['y-text'];
-$r=$_GET['R-checkbox'];
+$y=$_GET['y'];
+$r=$_GET['r'];
 $xcor = sprintf("%01.3f", $x);
 $offset = $_GET['offset'];
 
@@ -12,7 +12,7 @@ function validateOffset($offset){
 }
 
 function validateY($y){
-    return is_numeric($y) && ($y == -2 || $y == -1.5 || $y == -1 || $y == -0.5 || $y == 0 $y == 0.5 || $y == 1 || $y == 1.5 || $y == 2);
+    return is_numeric($y) && ($y == -2 || $y == -1.5 || $y == -1 || $y == -0.5 || $y == 0 || $y == 0.5 || $y == 1 || $y == 1.5 || $y == 2);
 }
 
 
@@ -27,17 +27,19 @@ function validateR($r){
 }
 
 function circleChecker($x, $y, $r){
-    return ($x<=0 && $y >= 0 && ($x^2) + ($y^2)<=($r^2))
+    return ($x<=0 && $y >= 0 && ($x^2) + ($y^2)<=($r^2));
 }
 
 function rectangleChecker($x, $y, $r){
-    return ($x >= 0 && y >=0 && $y <= (0.5*$r) && $x <= $r)
+    return ($x >= 0 && $y >=0 && $y <= (0.5*$r) && $x <= $r);
 }
 
 function triangleChecker($x, $y, $r){
-    return($x <= 0 && $y <= 0 && -2*($x+$y) >= $r )
+    return($x <= 0 && $y <= 0 && -2*($x+$y) >= $r );
 }
-
+function result($x, $y, $r){
+    return(circleChecker($x, $y, $r) || rectangleChecker($x, $y, $r) || triangleChecker($x, $y, $r));
+}
 $result = (validateY($y) && validateX($xcor) && validateR($r) && validateOffset($offset)) ? (result($xcor, $y, $r) ? 'Попадание' : 'Промах') : 'value error';
 $time_end = microtime(true);
 $script_time = number_format($time_end - $time_start, 6, ',', '');

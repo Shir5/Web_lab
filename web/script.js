@@ -1,14 +1,13 @@
-var x_buttons = document.querySelector("#x"),
-x_text = document.querySelector(".x-text"),
+const x_buttons = document.querySelector("#x"),
+y_button = document.getElementById("y"),
 r_buttons = document.querySelectorAll(".R-checkbox"),
-r_text = document.querySelector(".r-text"),
 table = document.querySelector("#values"),
 submit_button = document.querySelector("#submit-button"),
 clear_button = document.querySelector(".clear-button"),
 error_text = document.querySelector("#text-error"),
 err = document.querySelector(".err")
 
-var stats = {
+const stats = {
     x: undefined,
     y: undefined,
     r: undefined
@@ -74,18 +73,18 @@ function setErrorFor(input, message) {
     return false;
 }
 
-$("#submit-button").on("click", function(event) {
+$("#form").on("submit", function(event) {
     event.preventDefault();
     console.log("hello");
     if(!validateForm()){
         return false;
     }
     x_buttons.value = x_buttons.value.replace(',','.');
-    console.log($(this).serialize() + "&offset=" + (new Date().getTimezoneOffset()));
+    console.log("?x="+ x_buttons.value +"&y="+y_button.value + "&r="+$('input[name="R-checkbox"]:checked')[0].value + "&offset=" + (new Date().getTimezoneOffset()));
     $.ajax({
         url : 'php/main.php',
-        method : "GET",
-        data : $(this).serialize() + "&offset=" + new Date().getTimezoneOffset(),
+        type : "GET",
+        data : ("?x="+ x_buttons.value +"&y="+y_button.value + "&r="+$('input[name="R-checkbox"]:checked')[0].value + "&offset="  + (new Date().getTimezoneOffset())),
 
         success: function(data) { 
             $("#values").html(data);
@@ -99,7 +98,7 @@ $("#submit-button").on("click", function(event) {
 $(document).ready(function() {
     $.ajax({
         url: 'php/load.php',
-        method: "GET",
+        type: "GET",
         success: function(data){
             $("#values").html(data);
         },
