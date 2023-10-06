@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Lab3" default="build">
+
+    <property file="build.properties"/>
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="lib/ant-contrib-1.0b3.jar"/>
+
+    <path id="lib.path">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        <fileset dir="${lib.test.dir}" includes="**/*.jar"/>
+    </path>
+
+    <macrodef name="generate-hash" description="Генерация хешей файлов проекта и запись в MANIFEST.MF">
+        <attribute name="algorithm"/>
+        <sequential>
+            <signjar jar="${build.dir}/${ant.project.name}.war"
+                     alias="ant_keystore"
+                     storepass="password"
+                     digestalg="@{algorithm}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="svn-commit" description="Добавление файлов и совершение коммита в репозиторий svn">
+        <sequential>
+            <exec executable="svn">
+                <arg value="add"/>
+                <arg value="."/>
+                <arg value="--force"/>
+            </exec>
+
+            <input message="Введите сообщение коммита: "
+                   addproperty="commit.message"/>
+
+            <exec executable="svn">
+                <arg value="commit"/>
+                <arg value="-m"/>
+                <arg value="${commit.message}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="svn-status" description="Вывод состояния файлов рабочей копии">
+        <attribute name="outputproperty"/>
+        <sequential>
+            <exec executable="svn" outputproperty="@{outputproperty}">
+                <arg value="status"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="git-copy-commit" description="Получение файлов проекта по указанному коммиту и генерация zip-архива">
+        <attribute name="commit"/>
+        <attribute name="dest"/>
+        <sequential>
+            <exec executable="git">
+                <arg value="archive"/>
+                <arg value="--format=zip"/>
+                <arg value="--output=@{dest}"/>
+                <arg value="@{commit}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <target name="compile" description="Компиляция кода проекта">
+        <echo>Компиляция основного кода...</echo>
+        <property name="srcdir" value="${src.main.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${srcdir}"
+               destdir="${build.classes.dir}"
+               includeantruntime="false">
+            <classpath refid="lib.path"/>
+        </javac>
+
+        <echo>Компиляция тестов...</echo>
+        <mkdir dir="${test.dir}"/>
+        <javac srcdir="${src.test.dir}"
+               destdir="${test.dir}"
+               includeantruntime="false">
+            <classpath>
+                <path refid="lib.path"/>
+                <pathelement location="${build.classes.dir}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="build" depends="compile" description="Создание war-файла">
+        <echo>Копирование библиотек приложения в WEB-INF/lib...</echo>
+        <copy todir="${build.web-inf.lib}">
+            <path refid="lib.path"/>
+        </copy>
+
+        <echo>Копирование всех файлов в WEB-INF...</echo>
+        <copy todir="${build.web-inf}">
+            <fileset dir="${src.main.web}/WEB-INF"/>
+        </copy>
+
+        <echo>Копирование ресурсов...</echo>
+        <copy todir="${build.classes.dir}">
+            <fileset dir="${src.main.resources}"/>
+        </copy>
+
+        <echo>Копирование всех статических файлов в корень war-архива, игнорируя директорию WEB-INF...</echo>
+        <copy todir="${build.dir}">
+            <fileset dir="${src.main.web}">
+                <exclude name="WEB-INF/**"/>
+            </fileset>
+        </copy>
+
+        <echo>Создание war-архива...</echo>
+        <property name="war" value="${build.dir}/${ant.project.name}.war"/>
+        <war destfile="${war}">
+            <fileset dir="${build.dir}"/>
+        </war>
+    </target>
+
+    <target name="clean" description="Удаление скомпилированных файлов">
+        <echo>Удаление директории с классами...</echo>
+        <delete dir="${build.dir}"/>
+        <echo>Удаление директории с тестами...</echo>
+        <delete dir="${test.dir}"/>
+        <echo>Удаление директории с документами...</echo>
+        <delete dir="${doc.dir}"/>
+        <echo>Удаление директории с native2ascii ресурсами...</echo>
+        <delete dir="${native2ascii.resources}"/>
+    </target>
+
+    <target name="test" depends="build" description="Компиляция и выполнение тестов">
+        <echo>Создание директории для отчетов по тестам...</echo>
+        <mkdir dir="${test.report.dir}"/>
+        <echo>Исполнение тестов...</echo>
+        <junitlauncher printsummary="true" haltonfailure="true">
+            <classpath>
+                <path refid="lib.path"/>
+                <pathelement location="${build.dir}"/>
+                <pathelement location="${build.classes.dir}"/>
+                <pathelement location="${test.dir}"/>
+            </classpath>
+
+            <testclasses outputdir="${test.report.dir}">
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test*.class"/>
+                </fileset>
+                <listener type="legacy-plain"
+                          sendSysOut="true"
+                          sendSysErr="true"/>
+                <fork/>
+            </testclasses>
+        </junitlauncher>
+    </target>
+
+
+
+
+
+
+
+    <target name="team" description="Получение из git-репозитория 2 предыдущих ревизии, их сборка и упаковка в zip-архив">
+        <echo>Создание временной директории для файлов ревизий...</echo>
+        <tempfile property="temp.dir" destdir="${java.io.tmpdir}" prefix="ant"/>
+        <mkdir dir="${temp.dir}"/>
+
+        <for param="i" begin="1" end="2">
+            <sequential>
+                <echo>Ревизия #@{i}:</echo>
+                <echo>Копирование файлов ревизии во временную директорию...</echo>
+                <git-copy-commit commit="HEAD~@{i}" dest="${temp.dir}/@{i}.zip"/>
+                <unzip src="${temp.dir}/@{i}.zip" dest="${temp.dir}"/>
+
+                <echo>Сборка war-архива...</echo>
+                <ant antfile="${ant.file}" target="build" dir="${temp.dir}"/>
+                <copy file="${temp.dir}/build/${ant.project.name}.war"
+                      tofile="${temp.dir}/${ant.project.name}-Prev@{i}.war"/>
+
+                <echo>Очистка файлов ревизии во временной директории...</echo>
+                <delete>
+                    <fileset dir="${temp.dir}">
+                        <exclude name="*.war"/>
+                    </fileset>
+                </delete>
+            </sequential>
+        </for>
+
+        <echo>Упаковка собранных war-архивов в zip-архив...</echo>
+        <zip destfile="${build.dir}/${ant.project.name}-Team.zip"
+             basedir="${temp.dir}"
+             includes="*.war"/>
+    </target>
+    <target name="xml" description="Получение из git-репозитория 2 предыдущих ревизии, их сборка и упаковка в zip-архив">
+        <xmlvalidate failonerror="no" lenient="yes">
+            <fileset dir="." includes="**/*.xml"/>
+        </xmlvalidate>
+    </target>
+</project>
